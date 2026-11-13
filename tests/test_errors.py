@@ -10,11 +10,9 @@ class TestExceptions(unittest.TestCase):
 
     def test_zero_division(self):
         # the message differs between Python versions, so compare with the running interpreter's
-        try:
+        with self.assertRaises(ZeroDivisionError) as error:
             1 // 0
-        except ZeroDivisionError as e:
-            expected = f"Error Code: {e}"
-        self.assertEqual(safe_divide("1", "0"), expected)
+        self.assertEqual(safe_divide("1", "0"), f"Error Code: {error.exception}")
 
     def test_bad_int(self):
         self.assertEqual(safe_divide("2", "$"), "Error Code: invalid literal for int() with base 10: '$'")
